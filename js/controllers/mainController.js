@@ -5,23 +5,40 @@
 ************************************************************************/
 
 define(function(require) {
-    var Marionette = require("marionette"),
-        utils = require("objects/eventUtilities"),
+    var utils = require("objects/eventUtilities"),
+        BaseController = require("./baseController"),
+        NavBarView = require("../views/navBarView"),
         MainLayout = require("layouts/mainLayout");
 
     function getRegion(name) {
         return utils.request("getAppRegion", name);
     }
     
-    return Marionette.Controller.extend({
+    return BaseController.extend({
+        channelEvents: {
+            "navItem:selected" : "itemSelected",
+            // "settings:selected" : "onSettings",
+            // "contact:selected" : "onContact",
+            // "about:selected" : "onAbout"
+        },
         onLogin : function() {
             //Login logic goes here
         },
         onHome : function() {
-            var mainContentRegion = getRegion("mainContentRegion");
-            mainContentRegion.show(MainLayout);
+            //get the data items from the nav bar item selected
+            // then genericaly delegate a task 
+            var mainContentRegion = getRegion("mainContentRegion"),
+                userPanelRegion = getRegion("userRegion");
+
+            if (!mainContentRegion.hasView()) {
+                mainContentRegion.show(MainLayout);
+                if (!userPanelRegion.hasView()) {
+                    userPanelRegion.show(new NavBarView());
+                }
+            }
         },
+        itemSelected : function(evt) {
+            console.log("Event = ", evt, "and ", evt.data);
+        }
     });
 });
-           
-        

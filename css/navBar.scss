@@ -1,0 +1,15 @@
+/*
+	Nav bar CSS
+*/
+.nav-bar-items {
+	position: absolute;
+	height: 100%;
+	width: 100%;
+}
+.nav-bar-items li {
+	list-style-type: none;
+	display: inline-block;
+	border: 2px solid;
+	margin-left: 25px;
+	height: 100%;
+}
